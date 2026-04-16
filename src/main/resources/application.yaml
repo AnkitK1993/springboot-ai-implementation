@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: springboot-ai-implementation
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      base-url: https://api.openai.com/v1
+      model: gpt-4o
