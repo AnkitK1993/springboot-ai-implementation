@@ -1,11 +1,13 @@
 package com.ankit.springboot_ai_implementation.chat;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class ChatController {
@@ -13,34 +15,9 @@ public class ChatController {
     private final OpenAiChatModel openAiChatModel;
     private final ChatClient chatClient;
 
-    @Value("${OPENAI_API_KEY}")
-    private String apiKey;
-
-    public ChatController(OpenAiChatModel openAiChatModel, ChatClient.Builder builder) {
+    public ChatController(OpenAiChatModel openAiChatModel, ChatClient.Builder chatClientBuilder) {
         this.openAiChatModel = openAiChatModel;
-        this.chatClient = builder.build();
-    }
-
-    @GetMapping("/test")
-    public String chat(){
-        try {
-            return openAiChatModel.call("Who are you");
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
-        }
-    }
-
-    @GetMapping("/openai")
-    public String getOpenAIChatMessage(@RequestParam("query") String query){
-        return openAiChatModel.call(query);
-    }
-
-    @GetMapping("/chat")
-    public String getChatClientMessage(){
-        return chatClient.prompt()
-                .user("Hi")
-                .call()
-                .content();
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping("/hi")
@@ -48,9 +25,33 @@ public class ChatController {
         return "Hello";
     }
 
-    @GetMapping("/apikey")
-    public String getApiKey(){
-        return apiKey;
+    @GetMapping("/open-ai")
+    public String getOpenAIChatMessage(@RequestParam("query") String query){
+        return openAiChatModel.call(query);
+    }
+
+    @GetMapping("/chat-client")
+    public String getChatClientMessage(){
+        return chatClient.prompt()
+                .user("Hi")
+                .call()
+                .content();
+    }
+
+    @GetMapping("/stream")
+    public Flux<String> stream(){
+        return chatClient.prompt()
+                .user("10 places to visit in Mumbai")
+                .stream()
+                .content();
+    }
+
+    @GetMapping("/joke")
+    public ChatResponse joke(){
+        return chatClient.prompt()
+                .user("Tell me Dad joke about Java Developer")
+                .call()
+                .chatResponse();
     }
 
 }
