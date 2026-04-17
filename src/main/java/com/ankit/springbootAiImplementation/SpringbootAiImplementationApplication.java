@@ -1,4 +1,4 @@
-package com.ankit.springboot_ai_implementation;
+package com.ankit.springbootAiImplementation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

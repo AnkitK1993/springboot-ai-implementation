@@ -1,4 +1,4 @@
-package com.ankit.springboot_ai_implementation;
+package com.ankit.springbootAiImplementation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
