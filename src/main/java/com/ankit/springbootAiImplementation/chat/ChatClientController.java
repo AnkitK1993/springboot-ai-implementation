@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@RequestMapping("chat-client")
+@RequestMapping("/chat-client")
 public class ChatClientController {
 
     private final ChatClient chatClient;

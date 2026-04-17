@@ -1,3 +1,6 @@
+server:
+  servlet:
+    context-path: /springboot-ai
 spring:
   application:
     name: springboot-ai-implementation
